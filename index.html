@@ -7,25 +7,14 @@
 <title>VGH Foundation Name Badge Printer</title>
 
 <style>
-:root {
-    --margin: 1.5;
-    --column-gap: 3;
-    --row-gap: 0;
-    --line1-size: 16;
-    --line2-size: 12;
-}
-
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
     min-height: 100vh;
     padding: 120px 20px 40px;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background:
-        url("https://vghfoundation.ca/wp-content/uploads/2025/10/2025_FDN_Video_BG_2.png")
+    background: url("https://vghfoundation.ca/wp-content/uploads/2025/10/2025_FDN_Video_BG_2.png")
         center top / cover no-repeat fixed;
     color: #243447;
 }
@@ -34,10 +23,10 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.97);
-    border-radius: 14px;
     padding: 26px;
-    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.18);
+    background: rgba(255,255,255,.97);
+    border-radius: 14px;
+    box-shadow: 0 8px 35px rgba(0,0,0,.18);
 }
 
 header {
@@ -46,21 +35,9 @@ header {
     padding-bottom: 16px;
 }
 
-h1 {
-    margin: 0 0 8px;
-    color: #005b78;
-    font-size: 28px;
-}
-
-h2 {
-    margin: 0 0 14px;
-    font-size: 19px;
-    color: #005b78;
-}
-
-p {
-    line-height: 1.5;
-}
+h1 { margin: 0 0 8px; color: #005b78; font-size: 28px; }
+h2 { margin: 0 0 14px; color: #005b78; font-size: 19px; }
+p { line-height: 1.5; }
 
 .panel {
     border: 1px solid #d7e0e6;
@@ -70,28 +47,16 @@ p {
     background: #fff;
 }
 
-.controls-grid {
+.controls-grid, .editor-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 14px;
 }
 
-.field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label, .field-label { font-size: 13px; font-weight: 600; color: #334155; }
 
-.field label,
-.field-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #334155;
-}
-
-input[type="text"],
-input[type="number"],
-select {
+input[type="text"], input[type="number"], select {
     width: 100%;
     min-height: 38px;
     padding: 8px 10px;
@@ -124,40 +89,15 @@ button {
     font: inherit;
     font-weight: 600;
     cursor: pointer;
-    transition: filter 0.15s ease;
 }
+button:hover { filter: brightness(.94); }
+.primary { background: #006b88; color: white; }
+.secondary { background: #e6eef2; color: #244254; }
+.danger { background: #f9e5e5; color: #8c2929; }
 
-button:hover {
-    filter: brightness(0.94);
-}
-
-.primary {
-    background: #006b88;
-    color: white;
-}
-
-.secondary {
-    background: #e6eef2;
-    color: #244254;
-}
-
-.danger {
-    background: #f9e5e5;
-    color: #8c2929;
-}
-
-.button-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.status {
-    font-size: 13px;
-    color: #526575;
-    margin-top: 12px;
-}
+.button-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+.status, .muted { color: #637789; font-size: 13px; }
+.status { margin-top: 12px; }
 
 .layout-preview {
     overflow-x: auto;
@@ -182,25 +122,15 @@ button:hover {
     padding: 28px 12px 12px;
     border: 2px dashed #aebdc7;
     border-radius: 6px;
-    background: #fff;
+    background: white;
     cursor: pointer;
     text-align: center;
     overflow-wrap: anywhere;
 }
 
-.badge-card:hover {
-    border-color: #007a9e;
-    background: #f5fcff;
-}
-
-.badge-card.active {
-    border: 2px solid #007a9e;
-    background: #effaff;
-}
-
-.badge-card.selected {
-    box-shadow: inset 0 0 0 2px #c2e7d2;
-}
+.badge-card:hover { border-color: #007a9e; background: #f5fcff; }
+.badge-card.active { border: 2px solid #007a9e; background: #effaff; }
+.badge-card.selected { box-shadow: inset 0 0 0 2px #c2e7d2; }
 
 .badge-number {
     position: absolute;
@@ -223,44 +153,11 @@ button:hover {
     z-index: 1;
 }
 
-.badge-content {
-    width: 100%;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-}
+.badge-content { width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; }
+.badge-line1 { font-size: 16px; font-weight: 700; line-height: 1.2; }
+.badge-line2 { font-size: 12px; font-weight: 400; line-height: 1.2; margin-top: 4px; }
 
-.badge-line1 {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.2;
-}
-
-.badge-line2 {
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 1.2;
-    margin-top: 4px;
-}
-
-.editor-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 14px;
-}
-
-.muted {
-    color: #637789;
-    font-size: 13px;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* Actual US Letter print page */
-#printSheet {
-    display: none;
-}
+#printSheet { display: none; }
 
 @media print {
     @page {
@@ -268,10 +165,9 @@ button:hover {
         margin: 0;
     }
 
-    html,
-    body {
-        width: 8.5in;
-        height: 11in;
+    html, body {
+        width: 8.5in !important;
+        height: 11in !important;
         margin: 0 !important;
         padding: 0 !important;
         background: white !important;
@@ -281,11 +177,6 @@ button:hover {
 
     body * {
         visibility: hidden !important;
-    }
-
-    #printSheet,
-    #printSheet * {
-        visibility: visible !important;
     }
 
     #printSheet {
@@ -305,13 +196,27 @@ button:hover {
         box-sizing: border-box !important;
     }
 
+    #printSheet .print-badge,
+    #printSheet .print-badge * {
+        visibility: visible !important;
+    }
+
+    /* FIX: hide every unselected position and all its contents.
+       The stronger selector overrides the general print visibility rule. */
+    #printSheet .print-badge.unselected,
+    #printSheet .print-badge.unselected * {
+        visibility: hidden !important;
+        border-color: transparent !important;
+        color: transparent !important;
+    }
+
     .print-badge {
         display: flex;
         min-width: 0;
         min-height: 0;
         align-items: center;
         justify-content: center;
-        padding: 0.08in;
+        padding: .08in;
         border: none;
         background: white;
         color: black;
@@ -322,9 +227,11 @@ button:hover {
         break-inside: avoid;
     }
 
-    .print-badge.test {
-        border: 1px solid #888;
-    }
+    .print-badge.test { border: 1px solid #888; }
+    .print-badge-content { width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .print-line1 { line-height: 1.15; }
+    .print-line2 { line-height: 1.15; margin-top: .04in; }
+    .test-label { display: none; }
 
     .print-badge.test .test-label {
         display: block;
@@ -333,33 +240,7 @@ button:hover {
         color: #444;
     }
 
-    .print-badge .test-label {
-        display: none;
-    }
-
-    .print-badge-content {
-        width: 100%;
-        white-space: pre-wrap;
-        overflow-wrap: anywhere;
-    }
-
-    .print-line1 {
-        line-height: 1.15;
-    }
-
-    .print-line2 {
-        line-height: 1.15;
-        margin-top: 0.04in;
-    }
-
-    .print-badge.empty:not(.test) {
-        border: none !important;
-    }
-
-    .print-badge.unselected {
-        visibility: hidden !important;
-        border: none !important;
-    }
+    .print-badge.empty:not(.test) { border: none !important; }
 }
 </style>
 </head>
@@ -370,7 +251,7 @@ button:hover {
         <h1>VGH Foundation Name Badge Printer</h1>
         <p class="muted">
             Create and print name badges on US Letter paper (8.5 × 11 inches).
-            Your entries are saved in this browser.
+            Entries are saved in this browser.
         </p>
     </header>
 
@@ -379,15 +260,15 @@ button:hover {
         <div class="controls-grid">
             <div class="field">
                 <label for="margin">Page margins (cm)</label>
-                <input id="margin" type="number" min="0" max="3" step="0.1" value="1.5">
+                <input id="margin" type="number" min="0" max="3" step=".1" value="1.5">
             </div>
             <div class="field">
                 <label for="columnGap">Column gap (cm)</label>
-                <input id="columnGap" type="number" min="0" max="8" step="0.1" value="3">
+                <input id="columnGap" type="number" min="0" max="8" step=".1" value="3">
             </div>
             <div class="field">
                 <label for="rowGap">Row gap (cm)</label>
-                <input id="rowGap" type="number" min="0" max="1.5" step="0.1" value="0">
+                <input id="rowGap" type="number" min="0" max="1.5" step=".1" value="0">
             </div>
             <div class="field">
                 <label for="line1Size">Default line 1 font size (pt)</label>
@@ -399,39 +280,25 @@ button:hover {
             </div>
             <div class="field">
                 <label>Default line 1 style</label>
-                <label class="check-field">
-                    <input id="globalBold1" type="checkbox" checked>
-                    Bold line 1
-                </label>
+                <label class="check-field"><input id="globalBold1" type="checkbox" checked> Bold line 1</label>
             </div>
             <div class="field">
                 <label>Default line 2 style</label>
-                <label class="check-field">
-                    <input id="globalBold2" type="checkbox">
-                    Bold line 2
-                </label>
+                <label class="check-field"><input id="globalBold2" type="checkbox"> Bold line 2</label>
             </div>
         </div>
-        <p class="muted">
-            The page uses 2 columns and 10 rows. Check your printer's scaling settings
-            before printing; choose “Actual size” or 100%.
-        </p>
+        <p class="muted">Use Letter paper, Portrait orientation, and 100% / Actual size when printing.</p>
     </section>
 
     <section class="panel">
         <h2>2. Badge positions</h2>
-        <p class="muted">
-            Click a badge to edit it. Use the checkbox on each badge to select its
-            position for printing. You can select an empty position too.
-        </p>
+        <p class="muted">Click a badge to edit it. Check Print to select the position for printing.</p>
         <div class="button-row">
             <button class="secondary" id="selectAll">Select all positions</button>
             <button class="secondary" id="selectFilled">Select filled badges</button>
             <button class="secondary" id="selectNone">Clear selection</button>
         </div>
-        <div class="layout-preview">
-            <div class="badge-grid" id="badgeGrid"></div>
-        </div>
+        <div class="layout-preview"><div class="badge-grid" id="badgeGrid"></div></div>
         <p class="status" id="selectionStatus">0 positions selected.</p>
     </section>
 
@@ -482,8 +349,8 @@ button:hover {
     <section class="panel">
         <h2>4. Print</h2>
         <p class="muted">
-            Print selected positions, all filled badges, or a test alignment page.
-            Empty positions are blank when printing a regular badge sheet.
+            Print selected positions only, all filled badges, or a test alignment page.
+            Unselected positions remain blank to preserve alignment.
         </p>
         <div class="button-row">
             <button class="primary" id="printSelected">Print selected positions</button>
@@ -496,7 +363,6 @@ button:hover {
     </section>
 </main>
 
-<!-- Separate printable page, containing all 20 physical positions -->
 <div id="printSheet" aria-hidden="true"></div>
 
 <script>
@@ -518,27 +384,17 @@ button:hover {
 
     let settings = { ...defaults };
     let badges = Array.from({ length: TOTAL_BADGES }, () => ({
-        line1: "",
-        line2: "",
-        size1: "",
-        size2: "",
-        bold1: "default",
-        bold2: "default"
+        line1: "", line2: "", size1: "", size2: "",
+        bold1: "default", bold2: "default"
     }));
     let selected = new Set();
     let activeIndex = 0;
-    let printMode = "selected";
 
     const $ = id => document.getElementById(id);
 
     function validNumber(value, fallback, min, max) {
-        const n = Number(value);
-        if (value === "" || !Number.isFinite(n)) return fallback;
-        return Math.min(max, Math.max(min, n));
-    }
-
-    function escapeText(value) {
-        return String(value ?? "");
+        if (value === "" || !Number.isFinite(Number(value))) return fallback;
+        return Math.min(max, Math.max(min, Number(value)));
     }
 
     function effectiveBold(badge, line) {
@@ -550,20 +406,27 @@ button:hover {
 
     function effectiveSize(badge, line) {
         const custom = badge["size" + line];
-        const fallback = settings["line" + line + "Size"];
-        if (custom === "" || custom == null) return fallback;
-        return validNumber(custom, fallback, 6, line === 1 ? 40 : 30);
+        if (custom === "" || custom == null) return settings["line" + line + "Size"];
+        return validNumber(custom, settings["line" + line + "Size"], 6, line === 1 ? 40 : 30);
+    }
+
+    function persist(message = "Changes saved in this browser.") {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                settings, badges, selected: [...selected], activeIndex
+            }));
+            $("saveStatus").textContent = message;
+        } catch (error) {
+            $("saveStatus").textContent = "Could not save browser data. Check browser storage settings.";
+        }
     }
 
     function loadState() {
         try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (!raw) return;
-            const saved = JSON.parse(raw);
+            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+            if (!saved) return;
 
-            if (saved.settings) {
-                settings = { ...defaults, ...saved.settings };
-            }
+            if (saved.settings) settings = { ...defaults, ...saved.settings };
 
             if (Array.isArray(saved.badges) && saved.badges.length === TOTAL_BADGES) {
                 badges = saved.badges.map(b => ({
@@ -577,11 +440,9 @@ button:hover {
             }
 
             if (Array.isArray(saved.selected)) {
-                selected = new Set(
-                    saved.selected.filter(n =>
-                        Number.isInteger(n) && n >= 0 && n < TOTAL_BADGES
-                    )
-                );
+                selected = new Set(saved.selected.filter(n =>
+                    Number.isInteger(n) && n >= 0 && n < TOTAL_BADGES
+                ));
             }
 
             if (Number.isInteger(saved.activeIndex) &&
@@ -589,27 +450,11 @@ button:hover {
                 activeIndex = saved.activeIndex;
             }
         } catch (error) {
-            console.warn("Could not load saved badge data.", error);
+            console.warn("Could not load saved data.", error);
         }
     }
 
-    function persist(message = "Changes saved in this browser.") {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({
-                settings,
-                badges,
-                selected: [...selected],
-                activeIndex
-            }));
-            $("saveStatus").textContent = message;
-        } catch (error) {
-            $("saveStatus").textContent =
-                "Could not save in this browser. Check browser storage settings.";
-            console.error(error);
-        }
-    }
-
-    function readSettingsFromUI() {
+    function readSettings() {
         settings.margin = validNumber($("margin").value, defaults.margin, 0, 3);
         settings.columnGap = validNumber($("columnGap").value, defaults.columnGap, 0, 8);
         settings.rowGap = validNumber($("rowGap").value, defaults.rowGap, 0, 1.5);
@@ -619,7 +464,7 @@ button:hover {
         settings.globalBold2 = $("globalBold2").checked;
     }
 
-    function applySettingsToUI() {
+    function applySettings() {
         $("margin").value = settings.margin;
         $("columnGap").value = settings.columnGap;
         $("rowGap").value = settings.rowGap;
@@ -627,6 +472,7 @@ button:hover {
         $("line2Size").value = settings.line2Size;
         $("globalBold1").checked = !!settings.globalBold1;
         $("globalBold2").checked = !!settings.globalBold2;
+        applyPrintLayout();
     }
 
     function applyPrintLayout() {
@@ -634,6 +480,11 @@ button:hover {
         sheet.style.setProperty("--print-margin", settings.margin + "cm");
         sheet.style.setProperty("--print-column-gap", settings.columnGap + "cm");
         sheet.style.setProperty("--print-row-gap", settings.rowGap + "cm");
+    }
+
+    function updateSelectionStatus() {
+        $("selectionStatus").textContent =
+            selected.size + " of " + TOTAL_BADGES + " positions selected.";
     }
 
     function renderGrid() {
@@ -645,9 +496,6 @@ button:hover {
             card.className = "badge-card";
             if (index === activeIndex) card.classList.add("active");
             if (selected.has(index)) card.classList.add("selected");
-            card.setAttribute("role", "button");
-            card.setAttribute("tabindex", "0");
-            card.setAttribute("aria-label", "Edit badge position " + (index + 1));
 
             const number = document.createElement("span");
             number.className = "badge-number";
@@ -658,21 +506,20 @@ button:hover {
             label.className = "badge-select";
             label.addEventListener("click", event => event.stopPropagation());
 
-            const check = document.createElement("input");
-            check.type = "checkbox";
-            check.checked = selected.has(index);
-            check.setAttribute("aria-label", "Select position " + (index + 1));
-            check.addEventListener("change", () => {
-                if (check.checked) selected.add(index);
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = selected.has(index);
+            checkbox.setAttribute("aria-label", "Select position " + (index + 1));
+            checkbox.addEventListener("change", () => {
+                if (checkbox.checked) selected.add(index);
                 else selected.delete(index);
                 renderGrid();
-                updateSelectionStatus();
                 persist("Selection saved.");
             });
 
-            const checkText = document.createElement("span");
-            checkText.textContent = "Print";
-            label.append(check, checkText);
+            const printText = document.createElement("span");
+            printText.textContent = "Print";
+            label.append(checkbox, printText);
             card.appendChild(label);
 
             const content = document.createElement("div");
@@ -680,7 +527,7 @@ button:hover {
 
             const line1 = document.createElement("div");
             line1.className = "badge-line1";
-            line1.textContent = badge.line1 || (badge.line2 ? "" : "Empty position");
+            line1.textContent = badge.line1 || (!badge.line2 ? "Empty position" : "");
             line1.style.fontSize = effectiveSize(badge, 1) + "pt";
             line1.style.fontWeight = effectiveBold(badge, 1) ? "700" : "400";
             if (!badge.line1 && !badge.line2) {
@@ -701,27 +548,15 @@ button:hover {
 
             card.appendChild(content);
             card.addEventListener("click", () => loadEditor(index));
-            card.addEventListener("keydown", event => {
-                if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    loadEditor(index);
-                }
-            });
             grid.appendChild(card);
         });
 
         updateSelectionStatus();
     }
 
-    function updateSelectionStatus() {
-        $("selectionStatus").textContent =
-            selected.size + " of " + TOTAL_BADGES + " positions selected.";
-    }
-
     function loadEditor(index) {
         activeIndex = index;
         const badge = badges[index];
-
         $("editingLabel").textContent = "Editing position " + (index + 1) + " of " + TOTAL_BADGES + ".";
         $("name1").value = badge.line1;
         $("name2").value = badge.line2;
@@ -729,27 +564,20 @@ button:hover {
         $("customSize2").value = badge.size2;
         $("customBold1").value = badge.bold1;
         $("customBold2").value = badge.bold2;
-
         renderGrid();
         persist("Editing position " + (index + 1) + ".");
     }
 
     function saveEditor() {
         const badge = badges[activeIndex];
-
         badge.line1 = $("name1").value.trim();
         badge.line2 = $("name2").value.trim();
-        badge.size1 = $("customSize1").value === ""
-            ? ""
-            : validNumber($("customSize1").value, settings.line1Size, 6, 40);
-        badge.size2 = $("customSize2").value === ""
-            ? ""
-            : validNumber($("customSize2").value, settings.line2Size, 6, 30);
+        badge.size1 = $("customSize1").value === "" ? "" :
+            validNumber($("customSize1").value, settings.line1Size, 6, 40);
+        badge.size2 = $("customSize2").value === "" ? "" :
+            validNumber($("customSize2").value, settings.line2Size, 6, 30);
         badge.bold1 = $("customBold1").value;
         badge.bold2 = $("customBold2").value;
-
-        if (badge.size1 !== "") $("customSize1").value = badge.size1;
-        if (badge.size2 !== "") $("customSize2").value = badge.size2;
 
         renderGrid();
         persist("Badge position " + (activeIndex + 1) + " saved.");
@@ -757,12 +585,8 @@ button:hover {
 
     function clearCurrentBadge() {
         badges[activeIndex] = {
-            line1: "",
-            line2: "",
-            size1: "",
-            size2: "",
-            bold1: "default",
-            bold2: "default"
+            line1: "", line2: "", size1: "", size2: "",
+            bold1: "default", bold2: "default"
         };
         loadEditor(activeIndex);
         persist("Badge position cleared.");
@@ -775,28 +599,7 @@ button:hover {
         badge.bold1 = "default";
         badge.bold2 = "default";
         loadEditor(activeIndex);
-        persist("Badge formatting reset to defaults.");
-    }
-
-    function selectAllPositions() {
-        selected = new Set(Array.from({ length: TOTAL_BADGES }, (_, i) => i));
-        renderGrid();
-        persist("All positions selected.");
-    }
-
-    function selectFilledPositions() {
-        selected = new Set(
-            badges.map((b, i) => (b.line1.trim() || b.line2.trim()) ? i : -1)
-                .filter(i => i >= 0)
-        );
-        renderGrid();
-        persist("All filled positions selected.");
-    }
-
-    function selectNoPositions() {
-        selected.clear();
-        renderGrid();
-        persist("Selection cleared.");
+        persist("Badge formatting reset.");
     }
 
     function buildPrintSheet(mode) {
@@ -806,19 +609,17 @@ button:hover {
 
         for (let index = 0; index < TOTAL_BADGES; index++) {
             const badge = badges[index];
-            const isTest = mode === "test";
-            const isSelected = mode === "allFilled"
-                ? !!(badge.line1.trim() || badge.line2.trim())
-                : selected.has(index);
-
             const slot = document.createElement("div");
             slot.className = "print-badge";
 
-            if (isTest) {
-                slot.classList.add("test");
-            } else if (!isSelected) {
-                slot.classList.add("unselected");
-            }
+            // A position is printable only if the chosen mode includes it.
+            const shouldPrint = mode === "test"
+                ? true
+                : mode === "allFilled"
+                    ? Boolean(badge.line1.trim() || badge.line2.trim())
+                    : selected.has(index);
+
+            if (!shouldPrint) slot.classList.add("unselected");
 
             if (!badge.line1.trim() && !badge.line2.trim()) {
                 slot.classList.add("empty");
@@ -827,12 +628,13 @@ button:hover {
             const content = document.createElement("div");
             content.className = "print-badge-content";
 
-            if (isTest) {
+            if (mode === "test") {
+                slot.classList.add("test");
                 const label = document.createElement("span");
                 label.className = "test-label";
                 label.textContent = "ALIGNMENT TEST — " + (index + 1);
                 content.appendChild(label);
-            } else {
+            } else if (shouldPrint) {
                 if (badge.line1.trim()) {
                     const line1 = document.createElement("div");
                     line1.className = "print-line1";
@@ -855,19 +657,14 @@ button:hover {
             slot.appendChild(content);
             sheet.appendChild(slot);
         }
-
-        return mode === "test"
-            ? "test"
-            : mode === "allFilled" ? "allFilled" : "selected";
     }
 
     function runPrint(mode) {
-        readSettingsFromUI();
-        persist("Print layout saved.");
-        printMode = buildPrintSheet(mode);
+        readSettings();
+        applyPrintLayout();
 
         if (mode === "selected" && selected.size === 0) {
-            $("saveStatus").textContent = "Select at least one position before printing.";
+            $("saveStatus").textContent = "Select at least one badge position first.";
             return;
         }
 
@@ -877,24 +674,43 @@ button:hover {
             return;
         }
 
-        $("saveStatus").textContent =
-            mode === "test"
-                ? "Alignment test page ready."
-                : "Print sheet ready. Check the print preview before printing.";
+        saveEditor();
+        buildPrintSheet(mode);
+        persist("Print layout saved.");
+
+        $("saveStatus").textContent = mode === "test"
+            ? "Alignment test page ready."
+            : "Print preview ready. Only the chosen badges should be visible.";
 
         window.print();
     }
 
-    function clearAllBadges() {
-        if (!window.confirm("Clear all 20 badge positions? This cannot be undone.")) return;
+    function selectAllPositions() {
+        selected = new Set(Array.from({ length: TOTAL_BADGES }, (_, i) => i));
+        renderGrid();
+        persist("All positions selected.");
+    }
 
+    function selectFilledPositions() {
+        selected = new Set(
+            badges.map((b, i) => (b.line1.trim() || b.line2.trim()) ? i : -1)
+                .filter(i => i >= 0)
+        );
+        renderGrid();
+        persist("All filled positions selected.");
+    }
+
+    function clearSelection() {
+        selected.clear();
+        renderGrid();
+        persist("Selection cleared.");
+    }
+
+    function clearAllBadges() {
+        if (!confirm("Clear all 20 badge positions? This cannot be undone.")) return;
         badges = Array.from({ length: TOTAL_BADGES }, () => ({
-            line1: "",
-            line2: "",
-            size1: "",
-            size2: "",
-            bold1: "default",
-            bold2: "default"
+            line1: "", line2: "", size1: "", size2: "",
+            bold1: "default", bold2: "default"
         }));
         selected.clear();
         activeIndex = 0;
@@ -905,24 +721,22 @@ button:hover {
     $("saveBadge").addEventListener("click", saveEditor);
     $("clearBadge").addEventListener("click", clearCurrentBadge);
     $("resetFormat").addEventListener("click", resetCurrentFormat);
-
     $("selectAll").addEventListener("click", selectAllPositions);
     $("selectFilled").addEventListener("click", selectFilledPositions);
-    $("selectNone").addEventListener("click", selectNoPositions);
-
+    $("selectNone").addEventListener("click", clearSelection);
     $("printSelected").addEventListener("click", () => runPrint("selected"));
-    $("printFilled").addEventListener("click", () => runPrint("allFilled"));
     $("previewButton").addEventListener("click", () => runPrint("selected"));
+    $("printFilled").addEventListener("click", () => runPrint("allFilled"));
     $("testPrint").addEventListener("click", () => runPrint("test"));
     $("clearAll").addEventListener("click", clearAllBadges);
 
     ["margin", "columnGap", "rowGap", "line1Size", "line2Size",
      "globalBold1", "globalBold2"].forEach(id => {
         $(id).addEventListener("change", () => {
-            readSettingsFromUI();
+            readSettings();
             applyPrintLayout();
             renderGrid();
-            persist("Page layout and default formatting saved.");
+            persist("Layout and default formatting saved.");
         });
     });
 
@@ -931,8 +745,7 @@ button:hover {
     });
 
     loadState();
-    applySettingsToUI();
-    applyPrintLayout();
+    applySettings();
     renderGrid();
     loadEditor(activeIndex);
 })();
