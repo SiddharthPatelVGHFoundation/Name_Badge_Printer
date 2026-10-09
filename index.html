@@ -1,0 +1,941 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VGH Foundation Name Badge Printer</title>
+
+<style>
+:root {
+    --margin: 1.5;
+    --column-gap: 3;
+    --row-gap: 0;
+    --line1-size: 16;
+    --line2-size: 12;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 120px 20px 40px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background:
+        url("https://vghfoundation.ca/wp-content/uploads/2025/10/2025_FDN_Video_BG_2.png")
+        center top / cover no-repeat fixed;
+    color: #243447;
+}
+
+.app {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 14px;
+    padding: 26px;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.18);
+}
+
+header {
+    margin-bottom: 22px;
+    border-bottom: 3px solid #007a9e;
+    padding-bottom: 16px;
+}
+
+h1 {
+    margin: 0 0 8px;
+    color: #005b78;
+    font-size: 28px;
+}
+
+h2 {
+    margin: 0 0 14px;
+    font-size: 19px;
+    color: #005b78;
+}
+
+p {
+    line-height: 1.5;
+}
+
+.panel {
+    border: 1px solid #d7e0e6;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field label,
+.field-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    min-height: 38px;
+    padding: 8px 10px;
+    border: 1px solid #b9c7d1;
+    border-radius: 6px;
+    background: white;
+    color: #172b3a;
+    font: inherit;
+}
+
+input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    accent-color: #007a9e;
+    cursor: pointer;
+}
+
+.check-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 38px;
+    font-size: 13px;
+}
+
+button {
+    border: 0;
+    border-radius: 6px;
+    padding: 10px 15px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+}
+
+button:hover {
+    filter: brightness(0.94);
+}
+
+.primary {
+    background: #006b88;
+    color: white;
+}
+
+.secondary {
+    background: #e6eef2;
+    color: #244254;
+}
+
+.danger {
+    background: #f9e5e5;
+    color: #8c2929;
+}
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.status {
+    font-size: 13px;
+    color: #526575;
+    margin-top: 12px;
+}
+
+.layout-preview {
+    overflow-x: auto;
+    padding: 14px;
+    background: #edf2f5;
+    border-radius: 8px;
+}
+
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.badge-card {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    min-height: 92px;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 12px 12px;
+    border: 2px dashed #aebdc7;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.badge-card:hover {
+    border-color: #007a9e;
+    background: #f5fcff;
+}
+
+.badge-card.active {
+    border: 2px solid #007a9e;
+    background: #effaff;
+}
+
+.badge-card.selected {
+    box-shadow: inset 0 0 0 2px #c2e7d2;
+}
+
+.badge-number {
+    position: absolute;
+    left: 8px;
+    top: 7px;
+    font-size: 11px;
+    color: #6b7c88;
+}
+
+.badge-select {
+    position: absolute;
+    right: 7px;
+    top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #526575;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.badge-content {
+    width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.badge-line1 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.badge-line2 {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 4px;
+}
+
+.editor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+}
+
+.muted {
+    color: #637789;
+    font-size: 13px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Actual US Letter print page */
+#printSheet {
+    display: none;
+}
+
+@media print {
+    @page {
+        size: letter portrait;
+        margin: 0;
+    }
+
+    html,
+    body {
+        width: 8.5in;
+        height: 11in;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        color: black !important;
+        overflow: hidden !important;
+    }
+
+    body * {
+        visibility: hidden !important;
+    }
+
+    #printSheet,
+    #printSheet * {
+        visibility: visible !important;
+    }
+
+    #printSheet {
+        display: grid !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 8.5in !important;
+        height: 11in !important;
+        padding: var(--print-margin) !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        grid-template-rows: repeat(10, minmax(0, 1fr)) !important;
+        column-gap: var(--print-column-gap) !important;
+        row-gap: var(--print-row-gap) !important;
+        background: white !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    .print-badge {
+        display: flex;
+        min-width: 0;
+        min-height: 0;
+        align-items: center;
+        justify-content: center;
+        padding: 0.08in;
+        border: none;
+        background: white;
+        color: black;
+        text-align: center;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        box-sizing: border-box;
+        break-inside: avoid;
+    }
+
+    .print-badge.test {
+        border: 1px solid #888;
+    }
+
+    .print-badge.test .test-label {
+        display: block;
+        font-size: 9pt;
+        font-weight: normal;
+        color: #444;
+    }
+
+    .print-badge .test-label {
+        display: none;
+    }
+
+    .print-badge-content {
+        width: 100%;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+
+    .print-line1 {
+        line-height: 1.15;
+    }
+
+    .print-line2 {
+        line-height: 1.15;
+        margin-top: 0.04in;
+    }
+
+    .print-badge.empty:not(.test) {
+        border: none !important;
+    }
+
+    .print-badge.unselected {
+        visibility: hidden !important;
+        border: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+<main class="app">
+    <header>
+        <h1>VGH Foundation Name Badge Printer</h1>
+        <p class="muted">
+            Create and print name badges on US Letter paper (8.5 × 11 inches).
+            Your entries are saved in this browser.
+        </p>
+    </header>
+
+    <section class="panel">
+        <h2>1. Page layout</h2>
+        <div class="controls-grid">
+            <div class="field">
+                <label for="margin">Page margins (cm)</label>
+                <input id="margin" type="number" min="0" max="3" step="0.1" value="1.5">
+            </div>
+            <div class="field">
+                <label for="columnGap">Column gap (cm)</label>
+                <input id="columnGap" type="number" min="0" max="8" step="0.1" value="3">
+            </div>
+            <div class="field">
+                <label for="rowGap">Row gap (cm)</label>
+                <input id="rowGap" type="number" min="0" max="1.5" step="0.1" value="0">
+            </div>
+            <div class="field">
+                <label for="line1Size">Default line 1 font size (pt)</label>
+                <input id="line1Size" type="number" min="6" max="40" value="16">
+            </div>
+            <div class="field">
+                <label for="line2Size">Default line 2 font size (pt)</label>
+                <input id="line2Size" type="number" min="6" max="30" value="12">
+            </div>
+            <div class="field">
+                <label>Default line 1 style</label>
+                <label class="check-field">
+                    <input id="globalBold1" type="checkbox" checked>
+                    Bold line 1
+                </label>
+            </div>
+            <div class="field">
+                <label>Default line 2 style</label>
+                <label class="check-field">
+                    <input id="globalBold2" type="checkbox">
+                    Bold line 2
+                </label>
+            </div>
+        </div>
+        <p class="muted">
+            The page uses 2 columns and 10 rows. Check your printer's scaling settings
+            before printing; choose “Actual size” or 100%.
+        </p>
+    </section>
+
+    <section class="panel">
+        <h2>2. Badge positions</h2>
+        <p class="muted">
+            Click a badge to edit it. Use the checkbox on each badge to select its
+            position for printing. You can select an empty position too.
+        </p>
+        <div class="button-row">
+            <button class="secondary" id="selectAll">Select all positions</button>
+            <button class="secondary" id="selectFilled">Select filled badges</button>
+            <button class="secondary" id="selectNone">Clear selection</button>
+        </div>
+        <div class="layout-preview">
+            <div class="badge-grid" id="badgeGrid"></div>
+        </div>
+        <p class="status" id="selectionStatus">0 positions selected.</p>
+    </section>
+
+    <section class="panel">
+        <h2>3. Edit selected badge</h2>
+        <p class="muted" id="editingLabel">Choose a badge position above to edit it.</p>
+        <div class="editor-grid">
+            <div class="field">
+                <label for="name1">Line 1 — name</label>
+                <input id="name1" type="text" maxlength="100" placeholder="e.g. Siddharth Patel">
+            </div>
+            <div class="field">
+                <label for="name2">Line 2 — title or department</label>
+                <input id="name2" type="text" maxlength="100" placeholder="e.g. IT Systems & Security Analyst">
+            </div>
+            <div class="field">
+                <label for="customSize1">Line 1 font size (pt)</label>
+                <input id="customSize1" type="number" min="6" max="40" placeholder="Use default">
+            </div>
+            <div class="field">
+                <label for="customSize2">Line 2 font size (pt)</label>
+                <input id="customSize2" type="number" min="6" max="30" placeholder="Use default">
+            </div>
+            <div class="field">
+                <label for="customBold1">Line 1 bold setting</label>
+                <select id="customBold1">
+                    <option value="default">Use default setting</option>
+                    <option value="bold">Bold</option>
+                    <option value="normal">Normal</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="customBold2">Line 2 bold setting</label>
+                <select id="customBold2">
+                    <option value="default">Use default setting</option>
+                    <option value="bold">Bold</option>
+                    <option value="normal">Normal</option>
+                </select>
+            </div>
+        </div>
+        <div class="button-row">
+            <button class="primary" id="saveBadge">Save badge</button>
+            <button class="secondary" id="clearBadge">Clear this badge</button>
+            <button class="secondary" id="resetFormat">Reset badge formatting</button>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>4. Print</h2>
+        <p class="muted">
+            Print selected positions, all filled badges, or a test alignment page.
+            Empty positions are blank when printing a regular badge sheet.
+        </p>
+        <div class="button-row">
+            <button class="primary" id="printSelected">Print selected positions</button>
+            <button class="primary" id="printFilled">Print all filled badges</button>
+            <button class="secondary" id="previewButton">Print preview</button>
+            <button class="secondary" id="testPrint">Print alignment test page</button>
+            <button class="danger" id="clearAll">Clear all badges</button>
+        </div>
+        <p class="status" id="saveStatus">Ready.</p>
+    </section>
+</main>
+
+<!-- Separate printable page, containing all 20 physical positions -->
+<div id="printSheet" aria-hidden="true"></div>
+
+<script>
+(() => {
+    "use strict";
+
+    const STORAGE_KEY = "vghFoundationNameBadgePrinter_v1";
+    const TOTAL_BADGES = 20;
+
+    const defaults = {
+        margin: 1.5,
+        columnGap: 3,
+        rowGap: 0,
+        line1Size: 16,
+        line2Size: 12,
+        globalBold1: true,
+        globalBold2: false
+    };
+
+    let settings = { ...defaults };
+    let badges = Array.from({ length: TOTAL_BADGES }, () => ({
+        line1: "",
+        line2: "",
+        size1: "",
+        size2: "",
+        bold1: "default",
+        bold2: "default"
+    }));
+    let selected = new Set();
+    let activeIndex = 0;
+    let printMode = "selected";
+
+    const $ = id => document.getElementById(id);
+
+    function validNumber(value, fallback, min, max) {
+        const n = Number(value);
+        if (value === "" || !Number.isFinite(n)) return fallback;
+        return Math.min(max, Math.max(min, n));
+    }
+
+    function escapeText(value) {
+        return String(value ?? "");
+    }
+
+    function effectiveBold(badge, line) {
+        const custom = badge["bold" + line];
+        if (custom === "bold") return true;
+        if (custom === "normal") return false;
+        return !!settings["globalBold" + line];
+    }
+
+    function effectiveSize(badge, line) {
+        const custom = badge["size" + line];
+        const fallback = settings["line" + line + "Size"];
+        if (custom === "" || custom == null) return fallback;
+        return validNumber(custom, fallback, 6, line === 1 ? 40 : 30);
+    }
+
+    function loadState() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return;
+            const saved = JSON.parse(raw);
+
+            if (saved.settings) {
+                settings = { ...defaults, ...saved.settings };
+            }
+
+            if (Array.isArray(saved.badges) && saved.badges.length === TOTAL_BADGES) {
+                badges = saved.badges.map(b => ({
+                    line1: String(b.line1 ?? ""),
+                    line2: String(b.line2 ?? ""),
+                    size1: b.size1 ?? "",
+                    size2: b.size2 ?? "",
+                    bold1: b.bold1 ?? "default",
+                    bold2: b.bold2 ?? "default"
+                }));
+            }
+
+            if (Array.isArray(saved.selected)) {
+                selected = new Set(
+                    saved.selected.filter(n =>
+                        Number.isInteger(n) && n >= 0 && n < TOTAL_BADGES
+                    )
+                );
+            }
+
+            if (Number.isInteger(saved.activeIndex) &&
+                saved.activeIndex >= 0 && saved.activeIndex < TOTAL_BADGES) {
+                activeIndex = saved.activeIndex;
+            }
+        } catch (error) {
+            console.warn("Could not load saved badge data.", error);
+        }
+    }
+
+    function persist(message = "Changes saved in this browser.") {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                settings,
+                badges,
+                selected: [...selected],
+                activeIndex
+            }));
+            $("saveStatus").textContent = message;
+        } catch (error) {
+            $("saveStatus").textContent =
+                "Could not save in this browser. Check browser storage settings.";
+            console.error(error);
+        }
+    }
+
+    function readSettingsFromUI() {
+        settings.margin = validNumber($("margin").value, defaults.margin, 0, 3);
+        settings.columnGap = validNumber($("columnGap").value, defaults.columnGap, 0, 8);
+        settings.rowGap = validNumber($("rowGap").value, defaults.rowGap, 0, 1.5);
+        settings.line1Size = validNumber($("line1Size").value, defaults.line1Size, 6, 40);
+        settings.line2Size = validNumber($("line2Size").value, defaults.line2Size, 6, 30);
+        settings.globalBold1 = $("globalBold1").checked;
+        settings.globalBold2 = $("globalBold2").checked;
+    }
+
+    function applySettingsToUI() {
+        $("margin").value = settings.margin;
+        $("columnGap").value = settings.columnGap;
+        $("rowGap").value = settings.rowGap;
+        $("line1Size").value = settings.line1Size;
+        $("line2Size").value = settings.line2Size;
+        $("globalBold1").checked = !!settings.globalBold1;
+        $("globalBold2").checked = !!settings.globalBold2;
+    }
+
+    function applyPrintLayout() {
+        const sheet = $("printSheet");
+        sheet.style.setProperty("--print-margin", settings.margin + "cm");
+        sheet.style.setProperty("--print-column-gap", settings.columnGap + "cm");
+        sheet.style.setProperty("--print-row-gap", settings.rowGap + "cm");
+    }
+
+    function renderGrid() {
+        const grid = $("badgeGrid");
+        grid.replaceChildren();
+
+        badges.forEach((badge, index) => {
+            const card = document.createElement("div");
+            card.className = "badge-card";
+            if (index === activeIndex) card.classList.add("active");
+            if (selected.has(index)) card.classList.add("selected");
+            card.setAttribute("role", "button");
+            card.setAttribute("tabindex", "0");
+            card.setAttribute("aria-label", "Edit badge position " + (index + 1));
+
+            const number = document.createElement("span");
+            number.className = "badge-number";
+            number.textContent = "Position " + (index + 1);
+            card.appendChild(number);
+
+            const label = document.createElement("label");
+            label.className = "badge-select";
+            label.addEventListener("click", event => event.stopPropagation());
+
+            const check = document.createElement("input");
+            check.type = "checkbox";
+            check.checked = selected.has(index);
+            check.setAttribute("aria-label", "Select position " + (index + 1));
+            check.addEventListener("change", () => {
+                if (check.checked) selected.add(index);
+                else selected.delete(index);
+                renderGrid();
+                updateSelectionStatus();
+                persist("Selection saved.");
+            });
+
+            const checkText = document.createElement("span");
+            checkText.textContent = "Print";
+            label.append(check, checkText);
+            card.appendChild(label);
+
+            const content = document.createElement("div");
+            content.className = "badge-content";
+
+            const line1 = document.createElement("div");
+            line1.className = "badge-line1";
+            line1.textContent = badge.line1 || (badge.line2 ? "" : "Empty position");
+            line1.style.fontSize = effectiveSize(badge, 1) + "pt";
+            line1.style.fontWeight = effectiveBold(badge, 1) ? "700" : "400";
+            if (!badge.line1 && !badge.line2) {
+                line1.style.fontSize = "12px";
+                line1.style.fontWeight = "400";
+                line1.style.color = "#81909b";
+            }
+            content.appendChild(line1);
+
+            if (badge.line2) {
+                const line2 = document.createElement("div");
+                line2.className = "badge-line2";
+                line2.textContent = badge.line2;
+                line2.style.fontSize = effectiveSize(badge, 2) + "pt";
+                line2.style.fontWeight = effectiveBold(badge, 2) ? "700" : "400";
+                content.appendChild(line2);
+            }
+
+            card.appendChild(content);
+            card.addEventListener("click", () => loadEditor(index));
+            card.addEventListener("keydown", event => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    loadEditor(index);
+                }
+            });
+            grid.appendChild(card);
+        });
+
+        updateSelectionStatus();
+    }
+
+    function updateSelectionStatus() {
+        $("selectionStatus").textContent =
+            selected.size + " of " + TOTAL_BADGES + " positions selected.";
+    }
+
+    function loadEditor(index) {
+        activeIndex = index;
+        const badge = badges[index];
+
+        $("editingLabel").textContent = "Editing position " + (index + 1) + " of " + TOTAL_BADGES + ".";
+        $("name1").value = badge.line1;
+        $("name2").value = badge.line2;
+        $("customSize1").value = badge.size1;
+        $("customSize2").value = badge.size2;
+        $("customBold1").value = badge.bold1;
+        $("customBold2").value = badge.bold2;
+
+        renderGrid();
+        persist("Editing position " + (index + 1) + ".");
+    }
+
+    function saveEditor() {
+        const badge = badges[activeIndex];
+
+        badge.line1 = $("name1").value.trim();
+        badge.line2 = $("name2").value.trim();
+        badge.size1 = $("customSize1").value === ""
+            ? ""
+            : validNumber($("customSize1").value, settings.line1Size, 6, 40);
+        badge.size2 = $("customSize2").value === ""
+            ? ""
+            : validNumber($("customSize2").value, settings.line2Size, 6, 30);
+        badge.bold1 = $("customBold1").value;
+        badge.bold2 = $("customBold2").value;
+
+        if (badge.size1 !== "") $("customSize1").value = badge.size1;
+        if (badge.size2 !== "") $("customSize2").value = badge.size2;
+
+        renderGrid();
+        persist("Badge position " + (activeIndex + 1) + " saved.");
+    }
+
+    function clearCurrentBadge() {
+        badges[activeIndex] = {
+            line1: "",
+            line2: "",
+            size1: "",
+            size2: "",
+            bold1: "default",
+            bold2: "default"
+        };
+        loadEditor(activeIndex);
+        persist("Badge position cleared.");
+    }
+
+    function resetCurrentFormat() {
+        const badge = badges[activeIndex];
+        badge.size1 = "";
+        badge.size2 = "";
+        badge.bold1 = "default";
+        badge.bold2 = "default";
+        loadEditor(activeIndex);
+        persist("Badge formatting reset to defaults.");
+    }
+
+    function selectAllPositions() {
+        selected = new Set(Array.from({ length: TOTAL_BADGES }, (_, i) => i));
+        renderGrid();
+        persist("All positions selected.");
+    }
+
+    function selectFilledPositions() {
+        selected = new Set(
+            badges.map((b, i) => (b.line1.trim() || b.line2.trim()) ? i : -1)
+                .filter(i => i >= 0)
+        );
+        renderGrid();
+        persist("All filled positions selected.");
+    }
+
+    function selectNoPositions() {
+        selected.clear();
+        renderGrid();
+        persist("Selection cleared.");
+    }
+
+    function buildPrintSheet(mode) {
+        const sheet = $("printSheet");
+        sheet.replaceChildren();
+        applyPrintLayout();
+
+        for (let index = 0; index < TOTAL_BADGES; index++) {
+            const badge = badges[index];
+            const isTest = mode === "test";
+            const isSelected = mode === "allFilled"
+                ? !!(badge.line1.trim() || badge.line2.trim())
+                : selected.has(index);
+
+            const slot = document.createElement("div");
+            slot.className = "print-badge";
+
+            if (isTest) {
+                slot.classList.add("test");
+            } else if (!isSelected) {
+                slot.classList.add("unselected");
+            }
+
+            if (!badge.line1.trim() && !badge.line2.trim()) {
+                slot.classList.add("empty");
+            }
+
+            const content = document.createElement("div");
+            content.className = "print-badge-content";
+
+            if (isTest) {
+                const label = document.createElement("span");
+                label.className = "test-label";
+                label.textContent = "ALIGNMENT TEST — " + (index + 1);
+                content.appendChild(label);
+            } else {
+                if (badge.line1.trim()) {
+                    const line1 = document.createElement("div");
+                    line1.className = "print-line1";
+                    line1.textContent = badge.line1;
+                    line1.style.fontSize = effectiveSize(badge, 1) + "pt";
+                    line1.style.fontWeight = effectiveBold(badge, 1) ? "700" : "400";
+                    content.appendChild(line1);
+                }
+
+                if (badge.line2.trim()) {
+                    const line2 = document.createElement("div");
+                    line2.className = "print-line2";
+                    line2.textContent = badge.line2;
+                    line2.style.fontSize = effectiveSize(badge, 2) + "pt";
+                    line2.style.fontWeight = effectiveBold(badge, 2) ? "700" : "400";
+                    content.appendChild(line2);
+                }
+            }
+
+            slot.appendChild(content);
+            sheet.appendChild(slot);
+        }
+
+        return mode === "test"
+            ? "test"
+            : mode === "allFilled" ? "allFilled" : "selected";
+    }
+
+    function runPrint(mode) {
+        readSettingsFromUI();
+        persist("Print layout saved.");
+        printMode = buildPrintSheet(mode);
+
+        if (mode === "selected" && selected.size === 0) {
+            $("saveStatus").textContent = "Select at least one position before printing.";
+            return;
+        }
+
+        if (mode === "allFilled" &&
+            !badges.some(b => b.line1.trim() || b.line2.trim())) {
+            $("saveStatus").textContent = "There are no filled badges to print.";
+            return;
+        }
+
+        $("saveStatus").textContent =
+            mode === "test"
+                ? "Alignment test page ready."
+                : "Print sheet ready. Check the print preview before printing.";
+
+        window.print();
+    }
+
+    function clearAllBadges() {
+        if (!window.confirm("Clear all 20 badge positions? This cannot be undone.")) return;
+
+        badges = Array.from({ length: TOTAL_BADGES }, () => ({
+            line1: "",
+            line2: "",
+            size1: "",
+            size2: "",
+            bold1: "default",
+            bold2: "default"
+        }));
+        selected.clear();
+        activeIndex = 0;
+        loadEditor(0);
+        persist("All badges cleared.");
+    }
+
+    $("saveBadge").addEventListener("click", saveEditor);
+    $("clearBadge").addEventListener("click", clearCurrentBadge);
+    $("resetFormat").addEventListener("click", resetCurrentFormat);
+
+    $("selectAll").addEventListener("click", selectAllPositions);
+    $("selectFilled").addEventListener("click", selectFilledPositions);
+    $("selectNone").addEventListener("click", selectNoPositions);
+
+    $("printSelected").addEventListener("click", () => runPrint("selected"));
+    $("printFilled").addEventListener("click", () => runPrint("allFilled"));
+    $("previewButton").addEventListener("click", () => runPrint("selected"));
+    $("testPrint").addEventListener("click", () => runPrint("test"));
+    $("clearAll").addEventListener("click", clearAllBadges);
+
+    ["margin", "columnGap", "rowGap", "line1Size", "line2Size",
+     "globalBold1", "globalBold2"].forEach(id => {
+        $(id).addEventListener("change", () => {
+            readSettingsFromUI();
+            applyPrintLayout();
+            renderGrid();
+            persist("Page layout and default formatting saved.");
+        });
+    });
+
+    window.addEventListener("afterprint", () => {
+        $("saveStatus").textContent = "Print dialog closed. Your badges remain saved.";
+    });
+
+    loadState();
+    applySettingsToUI();
+    applyPrintLayout();
+    renderGrid();
+    loadEditor(activeIndex);
+})();
+</script>
+</body>
+</html>
